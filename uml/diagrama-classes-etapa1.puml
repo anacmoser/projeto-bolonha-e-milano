@@ -1,0 +1,20 @@
+@startuml diagrama-classes-etapa1
+title Bolonha e Milano - Diagrama de classes (Etapa 1)
+skinparam classAttributeIconSize 0
+
+class Main {
+  + main(args: String[]): void
+}
+
+class Menu {
+  - scanner: Scanner
+  - emExecucao: boolean
+  + executar(): void
+  - exibirOpcoes(): void
+  - lerOpcao(): int
+  - processarOpcao(opcao: int): void
+  - exibirSobre(): void
+}
+
+Main ..> Menu : cria e usa
+@enduml
