@@ -1,0 +1,41 @@
+@startuml diagrama-classes-etapa2
+title Bolonha e Milano - Diagrama de classes (cumulativo: Etapas 1 + 2)
+skinparam classAttributeIconSize 0
+
+class Main {
+  + main(args: String[]): void
+}
+
+class Menu {
+  - scanner: Scanner
+  - emExecucao: boolean
+  - jogador: Jogador
+  - cidade: Cidade
+  + executar(): void
+  - iniciarNovoJogo(): void
+  - exibirOpcoes(): void
+  - lerOpcao(): int
+  - processarOpcao(opcao: int): void
+  - exibirSobre(): void
+}
+
+class Jogador #FDE8C8 {
+  - nome: String
+  - titulo: String
+  + Jogador(nome: String)
+  + getNome(): String
+  + getTitulo(): String
+}
+
+class Cidade #FDE8C8 {
+  - nome: String
+  - anoAtual: int
+  - dono: Jogador
+  + Cidade(nome: String, dono: Jogador)
+  + avancarAno(): void
+  + exibirStatus(): void
+}
+
+Main ..> Menu : cria e usa
+Cidade "1" --> "1" Jogador : dono
+@enduml
