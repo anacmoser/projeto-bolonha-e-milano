@@ -3,13 +3,15 @@ package bolonhaemilano;
 import java.util.Scanner;
 
 /**
- * Menu principal do jogo (Etapa 1).
- * Opções: 1 - Novo jogo, 2 - Sobre o jogo, 0 - Sair.
+ * Menu principal do jogo (Etapas 1 + 2).
+ * Opções: 1 - Novo jogo, 2 - Ver status da cidade, 3 - Sobre o jogo, 0 - Sair.
  */
 public class Menu {
 
     private Scanner scanner;
     private boolean emExecucao;
+    private Jogador jogador;
+    private Cidade cidade;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
@@ -34,7 +36,8 @@ public class Menu {
         System.out.println(" Um jogo de estrategia economica medieval");
         System.out.println("==========================================");
         System.out.println("1 - Novo jogo");
-        System.out.println("2 - Sobre o jogo");
+        System.out.println("2 - Ver status da cidade");
+        System.out.println("3 - Sobre o jogo");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
@@ -55,9 +58,16 @@ public class Menu {
     private void processarOpcao(int opcao) {
         switch (opcao) {
             case 1:
-                System.out.println("Novo jogo sera implementado na Etapa 2.");
+                iniciarNovoJogo();
                 break;
             case 2:
+                if (cidade == null) {
+                    System.out.println("Nenhum jogo iniciado. Escolha 'Novo jogo' primeiro.");
+                } else {
+                    cidade.exibirStatus();
+                }
+                break;
+            case 3:
                 exibirSobre();
                 break;
             case 0:
@@ -67,6 +77,18 @@ public class Menu {
             default:
                 System.out.println("Opcao invalida. Tente novamente.");
         }
+    }
+
+    /** Cria o Jogador e a Cidade perguntando os nomes. */
+    private void iniciarNovoJogo() {
+        System.out.print("Digite o nome do jogador: ");
+        String nomeJogador = scanner.nextLine().trim();
+        System.out.print("Digite o nome da cidade: ");
+        String nomeCidade = scanner.nextLine().trim();
+
+        jogador = new Jogador(nomeJogador);
+        cidade = new Cidade(nomeCidade, jogador);
+        cidade.exibirStatus();
     }
 
     private void exibirSobre() {
