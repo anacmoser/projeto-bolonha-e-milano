@@ -3,20 +3,17 @@ package bolonhaemilano;
 import java.util.Scanner;
 
 /**
- * Menu principal do jogo (Etapas 1 + 2).
- * Opções: 1 - Novo jogo, 2 - Ver status da cidade, 3 - Sobre o jogo, 0 - Sair.
+ * Menu principal do jogo (Etapas 1 a 3).
+ * Controla o laço principal e delega o trabalho às classes certas;
+ * as regras do jogo moram nas classes de serviço, não aqui.
  */
 public class Menu {
 
-    private Scanner scanner;
-    private boolean emExecucao;
+    private final Scanner scanner = new Scanner(System.in);
+    private boolean emExecucao = true;
     private Jogador jogador;
     private Cidade cidade;
-
-    public Menu() {
-        this.scanner = new Scanner(System.in);
-        this.emExecucao = true;
-    }
+    private final Mercado mercado = new Mercado();
 
     /** Laço principal: repete até o jogador escolher sair. */
     public void executar() {
@@ -37,7 +34,8 @@ public class Menu {
         System.out.println("==========================================");
         System.out.println("1 - Novo jogo");
         System.out.println("2 - Ver status da cidade");
-        System.out.println("3 - Sobre o jogo");
+        System.out.println("3 - Mercado");
+        System.out.println("4 - Sobre o jogo");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
@@ -45,7 +43,7 @@ public class Menu {
     /** Lê uma linha e converte para inteiro; devolve -1 se for inválida. */
     private int lerOpcao() {
         if (!scanner.hasNextLine()) {
-            return 0; // fim da entrada: encerra o jogo
+            return 0; // fim da entrada: encerra o jogo / volta do submenu
         }
         String linha = scanner.nextLine().trim();
         try {
@@ -55,19 +53,38 @@ public class Menu {
         }
     }
 
+    /** Lê e valida um número digitado; devolve -1 se não for um inteiro válido. */
+    private int lerQuantidade() {
+        if (!scanner.hasNextLine()) {
+            return -1;
+        }
+        String linha = scanner.nextLine().trim();
+        try {
+            return Integer.parseInt(linha);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private String lerTexto() {
+        if (!scanner.hasNextLine()) {
+            return "";
+        }
+        return scanner.nextLine().trim();
+    }
+
     private void processarOpcao(int opcao) {
         switch (opcao) {
             case 1:
                 iniciarNovoJogo();
                 break;
             case 2:
-                if (cidade == null) {
-                    System.out.println("Nenhum jogo iniciado. Escolha 'Novo jogo' primeiro.");
-                } else {
-                    cidade.exibirStatus();
-                }
+                exibirStatus();
                 break;
             case 3:
+                abrirMercado();
+                break;
+            case 4:
                 exibirSobre();
                 break;
             case 0:
@@ -79,16 +96,124 @@ public class Menu {
         }
     }
 
-    /** Cria o Jogador e a Cidade perguntando os nomes. */
+    /** Avisa quando ainda não existe partida em andamento. */
+    private boolean partidaIniciada() {
+        if (cidade == null) {
+            System.out.println("Nenhum jogo iniciado. Escolha 'Novo jogo' primeiro.");
+            return false;
+        }
+        return true;
+    }
+
+    /** Cria o Jogador e a Cidade perguntando os nomes (padrões: Jogador 1 / Bolonha). */
     private void iniciarNovoJogo() {
         System.out.print("Digite o nome do jogador: ");
-        String nomeJogador = scanner.nextLine().trim();
+        String nomeJogador = lerTexto();
         System.out.print("Digite o nome da cidade: ");
-        String nomeCidade = scanner.nextLine().trim();
+        String nomeCidade = lerTexto();
+
+        if (nomeJogador.isEmpty()) {
+            nomeJogador = "Jogador 1";
+        }
+        if (nomeCidade.isEmpty()) {
+            nomeCidade = "Bolonha";
+        }
 
         jogador = new Jogador(nomeJogador);
         cidade = new Cidade(nomeCidade, jogador);
         cidade.exibirStatus();
+    }
+
+    private void exibirStatus() {
+        if (partidaIniciada()) {
+            cidade.exibirStatus();
+        }
+    }
+
+    private void abrirMercado() {
+        if (!partidaIniciada()) {
+            return;
+        }
+        boolean noMercado = true;
+        while (noMercado) {
+            System.out.println();
+            System.out.println("--- MERCADO ---");
+            System.out.println("Florins: " + cidade.getFlorins()
+                    + " | Graos: " + cidade.getGraos()
+                    + " | Terras: " + cidade.getTerras());
+            System.out.println("Preco do grao: " + mercado.getPrecoGrao()
+                    + " florins | Preco da terra: " + mercado.getPrecoTerra() + " florim");
+            System.out.println("1 - Comprar graos");
+            System.out.println("2 - Vender graos");
+            System.out.println("3 - Comprar terras");
+            System.out.println("4 - Vender terras");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha uma opcao: ");
+            int opcao = lerOpcao();
+            switch (opcao) {
+                case 1:
+                    comprarGraos();
+                    break;
+                case 2:
+                    venderGraos();
+                    break;
+                case 3:
+                    comprarTerras();
+                    break;
+                case 4:
+                    venderTerras();
+                    break;
+                case 0:
+                    noMercado = false;
+                    break;
+                default:
+                    System.out.println("Opcao invalida. Tente novamente.");
+            }
+        }
+    }
+
+    private void comprarGraos() {
+        System.out.print("Quantidade de graos a comprar: ");
+        int quantidade = lerQuantidade();
+        if (mercado.comprarGraos(cidade, quantidade)) {
+            System.out.println("Compra realizada. Florins: " + cidade.getFlorins()
+                    + " | Graos: " + cidade.getGraos());
+        } else {
+            System.out.println("Operacao recusada: quantidade invalida ou florins insuficientes.");
+        }
+    }
+
+    private void venderGraos() {
+        System.out.print("Quantidade de graos a vender: ");
+        int quantidade = lerQuantidade();
+        if (mercado.venderGraos(cidade, quantidade)) {
+            System.out.println("Venda realizada. Florins: " + cidade.getFlorins()
+                    + " | Graos: " + cidade.getGraos());
+        } else {
+            System.out.println("Operacao recusada: quantidade invalida ou graos insuficientes.");
+        }
+    }
+
+    private void comprarTerras() {
+        System.out.print("Quantidade de hectares a comprar: ");
+        int quantidade = lerQuantidade();
+        if (mercado.comprarTerras(cidade, quantidade)) {
+            System.out.println("Compra realizada. Florins: " + cidade.getFlorins()
+                    + " | Terras: " + cidade.getTerras());
+        } else {
+            System.out.println("Operacao recusada: quantidade invalida ou florins insuficientes.");
+        }
+    }
+
+    private void venderTerras() {
+        System.out.print("Quantidade de hectares a vender: ");
+        int quantidade = lerQuantidade();
+        if (mercado.venderTerras(cidade, quantidade)) {
+            System.out.println("Venda realizada. Florins: " + cidade.getFlorins()
+                    + " | Terras: " + cidade.getTerras());
+        } else {
+            System.out.println("Operacao recusada: quantidade invalida ou terras insuficientes.");
+        }
     }
 
     private void exibirSobre() {

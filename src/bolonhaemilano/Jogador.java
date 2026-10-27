@@ -5,7 +5,7 @@ package bolonhaemilano;
  */
 public class Jogador {
 
-    private String nome;
+    private final String nome;
     private String titulo;
 
     public Jogador(String nome) {
@@ -19,5 +19,9 @@ public class Jogador {
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
