@@ -10,6 +10,7 @@ public class Cidade {
     private static final int FLORINS_INICIAIS = 1000;
     private static final int TERRAS_INICIAIS = 10000;
     private static final int GRAOS_INICIAIS = 500;
+    private static final int SERVOS_INICIAIS = 200;
 
     private final String nome;
     private final Jogador dono;
@@ -17,6 +18,7 @@ public class Cidade {
     private int florins;
     private int terras;
     private int graos;
+    private int servos;
 
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
@@ -25,6 +27,7 @@ public class Cidade {
         this.florins = FLORINS_INICIAIS;
         this.terras = TERRAS_INICIAIS;
         this.graos = GRAOS_INICIAIS;
+        this.servos = SERVOS_INICIAIS;
     }
 
     public String getNome() {
@@ -49,6 +52,10 @@ public class Cidade {
 
     public int getGraos() {
         return graos;
+    }
+
+    public int getServos() {
+        return servos;
     }
 
     /** Incrementa o ano em 1 (só será chamado a partir da Etapa 7). */
@@ -104,6 +111,22 @@ public class Cidade {
         return true;
     }
 
+    /** Adiciona servos; quantidades não positivas são ignoradas. */
+    public void adicionarServos(int quantidade) {
+        if (quantidade > 0) {
+            servos += quantidade;
+        }
+    }
+
+    /** Remove servos; devolve false (sem alterar nada) se não houver quantidade suficiente. */
+    public boolean removerServos(int quantidade) {
+        if (quantidade < 0 || quantidade > servos) {
+            return false;
+        }
+        servos -= quantidade;
+        return true;
+    }
+
     public void exibirStatus() {
         System.out.println();
         System.out.println("--- STATUS DA CIDADE ---");
@@ -113,5 +136,6 @@ public class Cidade {
         System.out.println("Florins: " + florins);
         System.out.println("Terras: " + terras + " hectares");
         System.out.println("Graos: " + graos);
+        System.out.println("Servos: " + servos);
     }
 }
