@@ -31,18 +31,19 @@ java -cp bin bolonhaemilano.Main
 1. Estrutura inicial, Main e menu — concluída
 2. Classes Jogador e Cidade — concluída
 3. Economia: florins, terras e grãos — concluída
-4. Agricultura e população
+4. Agricultura e população — concluída
 5. Impostos e governo
 6. Construções e soldados
 7. Rodadas, múltiplos jogadores e vitória
 8. Integração, testes e entrega final
 
-## Menu atual (Etapa 3)
+## Menu atual (Etapa 4)
 
 ```
 1 - Novo jogo
 2 - Ver status da cidade
 3 - Mercado
-4 - Sobre o jogo
+4 - Agricultura
+5 - Sobre o jogo
 0 - Sair
 ```
