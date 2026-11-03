@@ -11,6 +11,8 @@ public class Cidade {
     private static final int TERRAS_INICIAIS = 10000;
     private static final int GRAOS_INICIAIS = 500;
     private static final int SERVOS_INICIAIS = 200;
+    private static final int TAXA_IMPOSTO_INICIAL = 10;
+    private static final String NIVEL_JUSTICA_INICIAL = "Moderada";
 
     private final String nome;
     private final Jogador dono;
@@ -19,6 +21,8 @@ public class Cidade {
     private int terras;
     private int graos;
     private int servos;
+    private int taxaImposto;
+    private String nivelJustica;
 
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
@@ -28,6 +32,8 @@ public class Cidade {
         this.terras = TERRAS_INICIAIS;
         this.graos = GRAOS_INICIAIS;
         this.servos = SERVOS_INICIAIS;
+        this.taxaImposto = TAXA_IMPOSTO_INICIAL;
+        this.nivelJustica = NIVEL_JUSTICA_INICIAL;
     }
 
     public String getNome() {
@@ -56,6 +62,22 @@ public class Cidade {
 
     public int getServos() {
         return servos;
+    }
+
+    public int getTaxaImposto() {
+        return taxaImposto;
+    }
+
+    public void setTaxaImposto(int taxa) {
+        this.taxaImposto = taxa;
+    }
+
+    public String getNivelJustica() {
+        return nivelJustica;
+    }
+
+    public void setNivelJustica(String nivel) {
+        this.nivelJustica = nivel;
     }
 
     /** Incrementa o ano em 1 (só será chamado a partir da Etapa 7). */
@@ -137,5 +159,7 @@ public class Cidade {
         System.out.println("Terras: " + terras + " hectares");
         System.out.println("Graos: " + graos);
         System.out.println("Servos: " + servos);
+        System.out.println("Taxa de imposto: " + taxaImposto + "%");
+        System.out.println("Nivel de justica: " + nivelJustica);
     }
 }
