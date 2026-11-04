@@ -13,6 +13,8 @@ public class Cidade {
     private static final int SERVOS_INICIAIS = 200;
     private static final int TAXA_IMPOSTO_INICIAL = 10;
     private static final String NIVEL_JUSTICA_INICIAL = "Moderada";
+    private static final int SOLDADOS_INICIAIS = 0;
+    private static final int CONSTRUCOES_INICIAIS = 0;
 
     private final String nome;
     private final Jogador dono;
@@ -23,6 +25,8 @@ public class Cidade {
     private int servos;
     private int taxaImposto;
     private String nivelJustica;
+    private int soldados;
+    private int construcoes;
 
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
@@ -34,6 +38,8 @@ public class Cidade {
         this.servos = SERVOS_INICIAIS;
         this.taxaImposto = TAXA_IMPOSTO_INICIAL;
         this.nivelJustica = NIVEL_JUSTICA_INICIAL;
+        this.soldados = SOLDADOS_INICIAIS;
+        this.construcoes = CONSTRUCOES_INICIAIS;
     }
 
     public String getNome() {
@@ -78,6 +84,14 @@ public class Cidade {
 
     public void setNivelJustica(String nivel) {
         this.nivelJustica = nivel;
+    }
+
+    public int getSoldados() {
+        return soldados;
+    }
+
+    public int getConstrucoes() {
+        return construcoes;
     }
 
     /** Incrementa o ano em 1 (só será chamado a partir da Etapa 7). */
@@ -149,6 +163,38 @@ public class Cidade {
         return true;
     }
 
+    /** Adiciona soldados; quantidades não positivas são ignoradas. */
+    public void adicionarSoldados(int quantidade) {
+        if (quantidade > 0) {
+            soldados += quantidade;
+        }
+    }
+
+    /** Remove soldados; devolve false (sem alterar nada) se não houver quantidade suficiente. */
+    public boolean removerSoldados(int quantidade) {
+        if (quantidade < 0 || quantidade > soldados) {
+            return false;
+        }
+        soldados -= quantidade;
+        return true;
+    }
+
+    /** Adiciona construcoes; quantidades não positivas são ignoradas. */
+    public void adicionarConstrucoes(int quantidade) {
+        if (quantidade > 0) {
+            construcoes += quantidade;
+        }
+    }
+
+    /** Remove construcoes; devolve false (sem alterar nada) se não houver quantidade suficiente. */
+    public boolean removerConstrucoes(int quantidade) {
+        if (quantidade < 0 || quantidade > construcoes) {
+            return false;
+        }
+        construcoes -= quantidade;
+        return true;
+    }
+
     public void exibirStatus() {
         System.out.println();
         System.out.println("--- STATUS DA CIDADE ---");
@@ -161,5 +207,7 @@ public class Cidade {
         System.out.println("Servos: " + servos);
         System.out.println("Taxa de imposto: " + taxaImposto + "%");
         System.out.println("Nivel de justica: " + nivelJustica);
+        System.out.println("Soldados: " + soldados);
+        System.out.println("Construcoes: " + construcoes);
     }
 }
