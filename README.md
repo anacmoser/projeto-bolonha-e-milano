@@ -33,11 +33,11 @@ java -cp bin bolonhaemilano.Main
 3. Economia: florins, terras e grãos — concluída
 4. Agricultura e população — concluída
 5. Impostos e governo — concluída
-6. Construções e soldados
+6. Construções e soldados — concluída
 7. Rodadas, múltiplos jogadores e vitória
 8. Integração, testes e entrega final
 
-## Menu atual (Etapa 5)
+## Menu atual (Etapa 6)
 
 ```
 1 - Novo jogo
@@ -45,6 +45,7 @@ java -cp bin bolonhaemilano.Main
 3 - Mercado
 4 - Agricultura
 5 - Governo
-6 - Sobre o jogo
+6 - Construções
+7 - Sobre o jogo
 0 - Sair
 ```
