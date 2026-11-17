@@ -16,9 +16,13 @@ public class Agricultura {
     /**
      * Colhe: hectares = min(terras, servos x 5); sementes = hectares / 2
      * (a área é reduzida se faltar grão); produção = hectares x 2.
-     * Devolve os hectares realmente cultivados.
+     * Devolve os hectares realmente cultivados, ou -1 se a cidade já colheu neste ano.
      */
     public int processarColheita(Cidade cidade) {
+        if (cidade.isColheitaFeita()) {
+            return -1;
+        }
+
         int hectares = Math.min(cidade.getTerras(), cidade.getServos() * HECTARES_POR_SERVO);
         int sementes = hectares / 2; // 1 unidade de semente para cada 2 hectares
 
@@ -30,6 +34,7 @@ public class Agricultura {
         cidade.removerGraos(sementes);
         int producao = hectares * RENDIMENTO_POR_HECTARE;
         cidade.adicionarGraos(producao);
+        cidade.marcarColheitaFeita();
         return hectares;
     }
 

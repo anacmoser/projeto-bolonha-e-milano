@@ -27,6 +27,8 @@ public class Cidade {
     private String nivelJustica;
     private int soldados;
     private int construcoes;
+    private boolean colheitaFeita;
+    private boolean impostosArrecadados;
 
     public Cidade(String nome, Jogador dono) {
         this.nome = nome;
@@ -94,9 +96,29 @@ public class Cidade {
         return construcoes;
     }
 
-    /** Incrementa o ano em 1 (só será chamado a partir da Etapa 7). */
+    /** Indica se a colheita deste ano já foi feita. */
+    public boolean isColheitaFeita() {
+        return colheitaFeita;
+    }
+
+    public void marcarColheitaFeita() {
+        colheitaFeita = true;
+    }
+
+    /** Indica se os impostos deste ano já foram arrecadados. */
+    public boolean isImpostosArrecadados() {
+        return impostosArrecadados;
+    }
+
+    public void marcarImpostosArrecadados() {
+        impostosArrecadados = true;
+    }
+
+    /** Soma 1 ao ano e libera de novo a colheita e a arrecadação de impostos. */
     public void avancarAno() {
         anoAtual++;
+        colheitaFeita = false;
+        impostosArrecadados = false;
     }
 
     /** Adiciona florins; quantidades não positivas são ignoradas. */
@@ -199,15 +221,17 @@ public class Cidade {
         System.out.println();
         System.out.println("--- STATUS DA CIDADE ---");
         System.out.println("Cidade: " + nome);
-        System.out.println("Governante: " + dono.getTitulo() + " " + dono.getNome());
+        System.out.println("Governante: " + dono.getNome() + " (" + dono.getTitulo() + ")");
         System.out.println("Ano atual: " + anoAtual);
         System.out.println("Florins: " + florins);
         System.out.println("Terras: " + terras + " hectares");
-        System.out.println("Graos: " + graos);
+        System.out.println("Graos em estoque: " + graos);
         System.out.println("Servos: " + servos);
         System.out.println("Taxa de imposto: " + taxaImposto + "%");
         System.out.println("Nivel de justica: " + nivelJustica);
         System.out.println("Soldados: " + soldados);
         System.out.println("Construcoes: " + construcoes);
+        System.out.println("Colheita deste ano: " + (colheitaFeita ? "feita" : "pendente"));
+        System.out.println("Impostos deste ano: " + (impostosArrecadados ? "arrecadados" : "pendentes"));
     }
 }

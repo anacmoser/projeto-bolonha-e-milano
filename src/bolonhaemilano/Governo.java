@@ -11,13 +11,18 @@ public class Governo {
     private static final double MULTIPLICADOR_MODERADA = 1.0;
     private static final double MULTIPLICADOR_SEVERA = 1.3;
 
-    /** base = servos x taxa / 100, multiplicada pelo fator da justiça atual. */
+    /** base = servos x taxa / 100, multiplicada pelo fator da justiça atual. Devolve -1 se já arrecadou neste ano. */
     public int arrecadarImpostos(Cidade cidade) {
+        if (cidade.isImpostosArrecadados()) {
+            return -1;
+        }
+
         int base = cidade.getServos() * cidade.getTaxaImposto() / 100;
         double multiplicador = multiplicadorPara(cidade.getNivelJustica());
         int arrecadado = (int) (base * multiplicador);
 
         cidade.adicionarFlorins(arrecadado);
+        cidade.marcarImpostosArrecadados();
         return arrecadado;
     }
 
