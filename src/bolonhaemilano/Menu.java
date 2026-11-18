@@ -54,10 +54,23 @@ public class Menu {
         System.out.print("Escolha uma opcao: ");
     }
 
-    /** Lê uma linha e converte para inteiro; devolve -1 se for inválida. */
+    /** Lê uma opção do menu; no fim da entrada devolve 0 (sair / voltar). */
     private int lerOpcao() {
         if (!scanner.hasNextLine()) {
-            return 0; // fim da entrada: encerra o jogo / volta do submenu
+            return 0;
+        }
+        return lerInteiro();
+    }
+
+    /** Lê uma quantidade (imprime o pedido antes, no próprio método que chama). */
+    private int lerQuantidade() {
+        return lerInteiro();
+    }
+
+    /** Lê uma linha e converte para inteiro; devolve -1 se for inválida. */
+    private int lerInteiro() {
+        if (!scanner.hasNextLine()) {
+            return -1;
         }
         String linha = scanner.nextLine().trim();
         try {
@@ -67,17 +80,13 @@ public class Menu {
         }
     }
 
-    /** Lê e valida um número digitado; devolve -1 se não for um inteiro válido. */
-    private int lerQuantidade() {
-        if (!scanner.hasNextLine()) {
-            return -1;
+    /** Avisa quando ainda não existe partida; devolve true se o jogo está em andamento. */
+    private boolean exigirJogoEmAndamento() {
+        if (partida == null) {
+            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+            return false;
         }
-        String linha = scanner.nextLine().trim();
-        try {
-            return Integer.parseInt(linha);
-        } catch (NumberFormatException e) {
-            return -1;
-        }
+        return true;
     }
 
     private String lerTexto() {
@@ -164,16 +173,14 @@ public class Menu {
     }
 
     private void exibirStatus() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         cidade.exibirStatus();
     }
 
     private void abrirMercado() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         boolean noMercado = true;
@@ -259,8 +266,7 @@ public class Menu {
     }
 
     private void abrirAgricultura() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         boolean naAgricultura = true;
@@ -315,8 +321,7 @@ public class Menu {
     }
 
     private void abrirGoverno() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         boolean noGoverno = true;
@@ -399,8 +404,7 @@ public class Menu {
     }
 
     private void abrirConstrucoes() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         boolean naConstrucoes = true;
@@ -459,8 +463,7 @@ public class Menu {
 
     /** Passa a vez; se o último jogador encerrou, fecha o ano (promoções, classificação, fim de jogo). */
     private void encerrarTurno() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         System.out.println("Turno de " + cidade.getDono().getNome() + " encerrado.");
@@ -490,8 +493,7 @@ public class Menu {
     }
 
     private void exibirClassificacao() {
-        if (partida == null) {
-            System.out.println("Nenhum jogo em andamento. Escolha 'Novo jogo' primeiro.");
+        if (!exigirJogoEmAndamento()) {
             return;
         }
         System.out.println();
