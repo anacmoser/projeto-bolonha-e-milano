@@ -3,11 +3,17 @@
 Projeto do 4º bimestre da disciplina SPOTDES: um jogo de estratégia econômica
 medieval em Java, construído em 8 etapas incrementais.
 
-## O que é o projeto
+## O que é o jogo
 
-Cada jogador governa uma cidade-Estado na Itália medieval (a partir do ano 1400),
-decidindo sobre agricultura, impostos, obras e defesa, com o objetivo de conquistar
-títulos de nobreza até chegar a rei ou rainha.
+De 1 a 4 jogadores governam cidades-Estado na Itália medieval, a partir do ano 1400,
+no mesmo computador, um turno de cada vez. Cada jogador decide sobre mercado, agricultura,
+impostos, construções e defesa. No fim do ano, quem tem prestígio suficiente sobe de título:
+Cavaleiro, Barão, Conde, Marquês, Duque e Rei/Rainha.
+
+- **Prestígio** = construções × 10 + soldados × 2 + servos + terras ÷ 100 (florins guardados não contam).
+- **Títulos** (prestígio mínimo): Barão 400, Conde 550, Marquês 700, Duque 850, Rei/Rainha 1000. Sobe-se no máximo um título por ano.
+- **Fim da partida**: quando alguém vira Rei/Rainha ou ao fim de 1410. Vence o título mais alto (empate: maior prestígio).
+- Colher e arrecadar impostos valem uma vez por ano por cidade.
 
 ## Como compilar e executar
 
@@ -18,13 +24,33 @@ javac -encoding UTF-8 -d bin src/bolonhaemilano/*.java
 java -cp bin bolonhaemilano.Main
 ```
 
+## Como jogar (menu principal)
+
+```
+1 - Novo jogo
+2 - Ver status da cidade
+3 - Mercado
+4 - Agricultura
+5 - Governo
+6 - Construções
+7 - Encerrar turno
+8 - Ver classificação
+9 - Sobre o jogo
+0 - Sair
+```
+
+A opção 7 passa a vez; quando o último jogador encerra o turno, o ano fecha. Exemplo de partida em dupla:
+Ana (Bolonha) e Beto (Milano) terminam 1400 com prestígio 410 e 340, e Ana vira Barão.
+
 ## Estrutura do repositório
 
 | Pasta | Conteúdo |
 |---|---|
 | `src/bolonhaemilano/` | Código-fonte Java (pacote `bolonhaemilano`) |
-| `uml/` | Diagramas de classes UML, um por etapa (cumulativos, `.puml` e `.png`) |
-| `casos-de-uso/` | Diagramas de casos de uso, um por etapa (cumulativos, `.puml` e `.png`) |
+| `uml/` | Diagramas de classes (um por etapa, cumulativos) (`.puml` e `.png`) |
+| `casos-de-uso/` | Diagramas de casos de uso (um por etapa, cumulativos) (`.puml` e `.png`) |
+
+Diagrama de classes atual: `uml/diagrama-classes-etapa7.png`.
 
 ## Etapas do projeto
 
@@ -34,18 +60,5 @@ java -cp bin bolonhaemilano.Main
 4. Agricultura e população — concluída
 5. Impostos e governo — concluída
 6. Construções e soldados — concluída
-7. Rodadas, múltiplos jogadores e vitória
+7. Rodadas, múltiplos jogadores e vitória — concluída
 8. Integração, testes e entrega final
-
-## Menu atual (Etapa 6)
-
-```
-1 - Novo jogo
-2 - Ver status da cidade
-3 - Mercado
-4 - Agricultura
-5 - Governo
-6 - Construções
-7 - Sobre o jogo
-0 - Sair
-```
