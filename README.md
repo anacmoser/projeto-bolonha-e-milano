@@ -24,6 +24,14 @@ javac -encoding UTF-8 -d bin src/bolonhaemilano/*.java
 java -cp bin bolonhaemilano.Main
 ```
 
+## Como rodar os testes
+
+```bash
+java -cp bin bolonhaemilano.Testes
+```
+
+Saída esperada no final: `Aprovados: 37 | Reprovados: 0`.
+
 ## Como jogar (menu principal)
 
 ```
@@ -46,11 +54,11 @@ Ana (Bolonha) e Beto (Milano) terminam 1400 com prestígio 410 e 340, e Ana vira
 
 | Pasta | Conteúdo |
 |---|---|
-| `src/bolonhaemilano/` | Código-fonte Java (pacote `bolonhaemilano`) |
-| `uml/` | Diagramas de classes (um por etapa, cumulativos) (`.puml` e `.png`) |
+| `src/bolonhaemilano/` | Código-fonte Java (pacote `bolonhaemilano`), incluindo `Testes.java` |
+| `uml/` | Diagramas de classes (um por etapa, cumulativos) e o diagrama de sequência do fim do ano (`.puml` e `.png`) |
 | `casos-de-uso/` | Diagramas de casos de uso (um por etapa, cumulativos) (`.puml` e `.png`) |
 
-Diagrama de classes atual: `uml/diagrama-classes-etapa7.png`.
+Diagrama de classes atual: `uml/diagrama-classes-etapa8.png`.
 
 ## Etapas do projeto
 
@@ -61,4 +69,4 @@ Diagrama de classes atual: `uml/diagrama-classes-etapa7.png`.
 5. Impostos e governo — concluída
 6. Construções e soldados — concluída
 7. Rodadas, múltiplos jogadores e vitória — concluída
-8. Integração, testes e entrega final
+8. Integração, testes e entrega final — concluída

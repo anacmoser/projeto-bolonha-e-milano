@@ -1,0 +1,58 @@
+@startuml diagrama-casos-de-uso-etapa8
+title Bolonha e Milano - Diagrama de casos de uso (Etapa 8)
+left to right direction
+actor Jogador
+
+rectangle "Bolonha e Milano" {
+  usecase "Iniciar novo jogo (1 a 4 jogadores)" as UC_iniciar
+  usecase "Ver status da cidade" as UC_status
+  usecase "Acessar mercado" as UC_mercado
+  usecase "Acessar agricultura" as UC_agricultura
+  usecase "Acessar governo" as UC_governo
+  usecase "Acessar construções" as UC_construcoes
+  usecase "Encerrar turno" as UC_turno
+  usecase "Ver classificação" as UC_classif
+  usecase "Ver informações sobre o jogo" as UC_sobre
+  usecase "Sair do jogo" as UC_sair
+  usecase "Comprar grãos" as UC_mercado_0
+  usecase "Vender grãos" as UC_mercado_1
+  usecase "Comprar terras" as UC_mercado_2
+  usecase "Vender terras" as UC_mercado_3
+  usecase "Colher (processar safra)" as UC_agricultura_0
+  usecase "Distribuir alimentos" as UC_agricultura_1
+  usecase "Arrecadar impostos" as UC_governo_0
+  usecase "Definir taxa de imposto" as UC_governo_1
+  usecase "Definir nível de justiça" as UC_governo_2
+  usecase "Recrutar soldados" as UC_construcoes_0
+  usecase "Construir" as UC_construcoes_1
+  usecase "Fechar o ano (promover títulos)" as UC_ano
+  usecase "Declarar vencedor" as UC_venc
+}
+
+Jogador --> UC_iniciar
+Jogador --> UC_status
+Jogador --> UC_mercado
+Jogador --> UC_agricultura
+Jogador --> UC_governo
+Jogador --> UC_construcoes
+Jogador --> UC_turno
+Jogador --> UC_classif
+Jogador --> UC_sobre
+Jogador --> UC_sair
+UC_iniciar .> UC_status : <<include>>
+UC_mercado_0 .> UC_mercado : <<extend>>
+UC_mercado_1 .> UC_mercado : <<extend>>
+UC_mercado_2 .> UC_mercado : <<extend>>
+UC_mercado_3 .> UC_mercado : <<extend>>
+UC_agricultura_0 .> UC_agricultura : <<extend>>
+UC_agricultura_1 .> UC_agricultura : <<extend>>
+UC_governo_0 .> UC_governo : <<extend>>
+UC_governo_1 .> UC_governo : <<extend>>
+UC_governo_2 .> UC_governo : <<extend>>
+UC_construcoes_0 .> UC_construcoes : <<extend>>
+UC_construcoes_1 .> UC_construcoes : <<extend>>
+UC_ano .> UC_turno : <<extend>>
+note on link: só quando quem encerrou é o último jogador da rodada
+UC_venc .> UC_ano : <<extend>>
+note on link: só se alguém virou Rei/Rainha ou 1410 acabou
+@enduml
