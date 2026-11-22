@@ -7,3 +7,6 @@ out/
 .idea/
 .vscode/
 *.iml
+
+# Partida salva (extra)
+*.sav

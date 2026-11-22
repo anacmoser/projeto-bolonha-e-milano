@@ -32,6 +32,8 @@ java -cp bin bolonhaemilano.Testes
 
 Saída esperada no final: `Aprovados: 37 | Reprovados: 0`.
 
+Testes dos extras: `java -cp bin bolonhaemilano.TestesExtras` (`Aprovados: 16 | Reprovados: 0`).
+
 ## Como jogar (menu principal)
 
 ```
@@ -44,11 +46,21 @@ Saída esperada no final: `Aprovados: 37 | Reprovados: 0`.
 7 - Encerrar turno
 8 - Ver classificação
 9 - Sobre o jogo
+10 - Extras
 0 - Sair
 ```
 
 A opção 7 passa a vez; quando o último jogador encerra o turno, o ano fecha. Exemplo de partida em dupla:
 Ana (Bolonha) e Beto (Milano) terminam 1400 com prestígio 410 e 340, e Ana vira Barão.
+
+## Melhorias extras (diferenciais)
+
+Todas ficam no menu **10 - Extras** e não alteram nenhuma regra do enunciado:
+
+- **Salvar e carregar partida** (`Persistencia`): grava a partida em `bolonha-e-milano.sav` (texto simples) e a reconstrói depois, validando o arquivo.
+- **Eventos aleatórios** (`Eventos`): seca, ratos, peste, boa safra e invasão no fim de cada ano. Vêm **desligados** por padrão e podem ser ligados no menu Extras. Uma invasão é repelida com 20 ou mais soldados.
+- **Conselheiro** (`Conselheiro`): usa a fórmula do prestígio para dizer quantos pontos faltam para o próximo título e quantas construções (e quantos florins) isso exige.
+- **Mais testes** (`TestesExtras`): 16 verificações extras para os três itens acima, sem alterar o resultado esperado da classe `Testes` (37 aprovados).
 
 ## Estrutura do repositório
 
@@ -58,7 +70,7 @@ Ana (Bolonha) e Beto (Milano) terminam 1400 com prestígio 410 e 340, e Ana vira
 | `uml/` | Diagramas de classes (um por etapa, cumulativos) e o diagrama de sequência do fim do ano (`.puml` e `.png`) |
 | `casos-de-uso/` | Diagramas de casos de uso (um por etapa, cumulativos) (`.puml` e `.png`) |
 
-Diagrama de classes atual: `uml/diagrama-classes-etapa8.png`.
+Diagrama de classes atual: `uml/diagrama-classes-extras.png`.
 
 ## Etapas do projeto
 

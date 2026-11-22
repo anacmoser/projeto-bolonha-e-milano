@@ -1,5 +1,8 @@
 package bolonhaemilano;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +23,10 @@ public class Menu {
     private final Governo governo = new Governo();
     private final Construcoes construcoes = new Construcoes();
     private final Nobreza nobreza = new Nobreza();
+    private static final Path ARQUIVO_SAVE = Paths.get("bolonha-e-milano.sav");
+    private final Eventos eventos = new Eventos();
+    private final Conselheiro conselheiro = new Conselheiro();
+    private boolean eventosAtivos = false;
 
     /** Laço principal: repete até o jogador escolher sair. */
     public void executar() {
@@ -50,6 +57,7 @@ public class Menu {
         System.out.println("7 - Encerrar turno");
         System.out.println("8 - Ver classificacao");
         System.out.println("9 - Sobre o jogo");
+        System.out.println("10 - Extras");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opcao: ");
     }
@@ -124,6 +132,9 @@ public class Menu {
                 break;
             case 9:
                 exibirSobre();
+                break;
+            case 10:
+                abrirExtras();
                 break;
             case 0:
                 emExecucao = false;
@@ -473,6 +484,14 @@ public class Menu {
             int anoQueFechou = partida.getAnoAtual();
             System.out.println();
             System.out.println("========= FIM DO ANO " + anoQueFechou + " =========");
+            if (eventosAtivos) {
+                for (Cidade c : partida.getCidades()) {
+                    String ocorrido = eventos.sortear(c);
+                    if (ocorrido != null) {
+                        System.out.println("[Evento] " + c.getNome() + ": " + ocorrido);
+                    }
+                }
+            }
             List<Cidade> promovidas = partida.encerrarAno(nobreza);
             for (Cidade promovida : promovidas) {
                 System.out.println(promovida.getDono().getNome() + ", de " + promovida.getNome()
@@ -527,6 +546,75 @@ public class Menu {
                 + vencedora.getNome() + ", com prestigio " + nobreza.calcularPrestigio(vencedora) + ".");
         partida = null;
         cidade = null;
+    }
+
+    /** Extras (diferenciais do projeto): salvar/carregar, eventos aleatórios e conselheiro. */
+    private void abrirExtras() {
+        boolean nosExtras = true;
+        while (nosExtras) {
+            System.out.println();
+            System.out.println("--- EXTRAS ---");
+            System.out.println("1 - Salvar partida");
+            System.out.println("2 - Carregar partida");
+            System.out.println("3 - Eventos aleatorios no fim do ano: " + (eventosAtivos ? "LIGADOS" : "desligados") + " (alternar)");
+            System.out.println("4 - Pedir conselho ao conselheiro");
+            System.out.println("0 - Voltar");
+            System.out.print("Escolha uma opcao: ");
+            int opcao = lerOpcao();
+            switch (opcao) {
+                case 1:
+                    salvarPartida();
+                    break;
+                case 2:
+                    carregarPartida();
+                    break;
+                case 3:
+                    eventosAtivos = !eventosAtivos;
+                    System.out.println("Eventos aleatorios " + (eventosAtivos ? "ligados." : "desligados."));
+                    break;
+                case 4:
+                    pedirConselho();
+                    break;
+                case 0:
+                    nosExtras = false;
+                    break;
+                default:
+                    System.out.println("Opcao invalida. Tente novamente.");
+            }
+        }
+    }
+
+    private void salvarPartida() {
+        if (!exigirJogoEmAndamento()) {
+            return;
+        }
+        try {
+            Persistencia.salvar(partida, ARQUIVO_SAVE);
+            System.out.println("Partida salva em " + ARQUIVO_SAVE + ".");
+        } catch (IOException e) {
+            System.out.println("Nao foi possivel salvar: " + e.getMessage());
+        }
+    }
+
+    private void carregarPartida() {
+        try {
+            Partida carregada = Persistencia.carregar(ARQUIVO_SAVE);
+            partida = carregada;
+            cidade = partida.getCidadeAtual();
+            System.out.println("Partida carregada. Ano " + partida.getAnoAtual() + ".");
+            System.out.println("Agora e a vez de " + descricaoDaVez() + ".");
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.println("Nao foi possivel carregar: " + e.getMessage());
+        }
+    }
+
+    private void pedirConselho() {
+        if (!exigirJogoEmAndamento()) {
+            return;
+        }
+        System.out.println();
+        System.out.println("--- CONSELHEIRO ---");
+        System.out.println(conselheiro.aconselhar(cidade, nobreza));
     }
 
     private void exibirSobre() {
